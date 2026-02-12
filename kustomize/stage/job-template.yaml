@@ -1,0 +1,31 @@
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: backend-prestart
+  namespace: stage
+  annotations:
+    argocd.argoproj.io/hook: Sync
+    argocd.argoproj.io/hook-delete-policy: HookSucceeded
+spec:
+  backoffLimit: 2
+  activeDeadlineSeconds: 240
+  ttlSecondsAfterFinished: 180
+  template:
+    spec:
+      restartPolicy: Never
+      containers:
+        - name: prestart
+          image: your-backend-image:stage
+          command: ["sh", "-c"]
+          args:
+            - |
+              echo "Running prestart tasks..."
+              python prestart.py
+          resources:
+            requests:
+              cpu: 75m
+              memory: 96Mi
+            limits:
+              cpu: 300m
+              memory: 384Mi
+
