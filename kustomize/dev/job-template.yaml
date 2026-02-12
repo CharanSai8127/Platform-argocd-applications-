@@ -15,7 +15,7 @@ spec:
       restartPolicy: Never
       containers:
         - name: prestart
-          image: your-backend-image:dev
+          image: charansait372/backend:v1
           command: ["sh", "-c"]
           args:
             - |
